@@ -1,19 +1,15 @@
-package kth.id2216.challengeall;
+package kth.id2216.challengeall.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import kth.id2216.challengeall.dummy.DummyContent;
+import kth.id2216.challengeall.R;
 import kth.id2216.challengeall.dummy.DummyContent.DummyItem;
-
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.

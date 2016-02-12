@@ -7,11 +7,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="kth.id2216.challengeall.SplashActivity">
-
-
+    android:layout_gravity="center"
+    android:background="@color/splashBackground"
+    tools:context=".Activities.SplashActivity">
         <ImageView android:id="@+id/splashscreen" android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:src="@drawable/splash"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"/>
 </RelativeLayout>

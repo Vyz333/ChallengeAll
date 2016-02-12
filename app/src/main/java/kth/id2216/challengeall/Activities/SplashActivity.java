@@ -1,10 +1,11 @@
-package kth.id2216.challengeall;
+package kth.id2216.challengeall.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.os.Handler;
+
+import kth.id2216.challengeall.R;
 
 public class SplashActivity extends AppCompatActivity {
     private final int SPLASH_DISPLAY_LENGTH = 1000;

@@ -1,4 +1,4 @@
-package kth.id2216.challengeall;
+package kth.id2216.challengeall.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import kth.id2216.challengeall.ChallengeFragment.OnListFragmentInteractionListener;
+import kth.id2216.challengeall.Fragments.ChallengeFragment.OnListFragmentInteractionListener;
+import kth.id2216.challengeall.R;
 import kth.id2216.challengeall.dummy.DummyContent.DummyItem;
 
 import java.util.List;
