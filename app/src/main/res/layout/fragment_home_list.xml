@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list"
     android:name="kth.id2216.challengeall.Fragments.HomeFragment"
+    android:background="@color/listBackground"
+    android:scrollbars="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:paddingLeft="@dimen/list_padding"
+    android:paddingRight="@dimen/list_padding"
     app:layoutManager="LinearLayoutManager"
     tools:context="kth.id2216.challengeall.Fragments.HomeFragment"
-    tools:listitem="@layout/fragment_home" />
+    tools:listitem="@layout/challenge_item_home" />
