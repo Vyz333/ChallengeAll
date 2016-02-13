@@ -20,6 +20,11 @@ import kth.id2216.challengeall.R;
 
 public class MainActivity extends AppCompatActivity  implements HomeFragment.OnListFragmentInteractionListener {
 
+    public static final int HOME_IDX = 0;
+    public static final int SEARCH_IDX = 1;
+    public static final int NEW_CHALLENGE_IDX = 2;
+    public static final int NOTIFICATIONS_IDX = 4;
+    public static final int PROFILE_IDX = 5;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -59,13 +64,37 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mViewPager.setCurrentItem(HOME_IDX,true);
             }
         });
         ImageButton searchButton = (ImageButton) navMenu.findViewById(R.id.search);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(SEARCH_IDX,true);
+            }
+        });
         ImageButton newChallengeButton = (ImageButton) navMenu.findViewById(R.id.new_challenge);
+        newChallengeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(NEW_CHALLENGE_IDX,true);
+            }
+        });
         ImageButton notificationsButton = (ImageButton) navMenu.findViewById(R.id.notifications);
+        notificationsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(NOTIFICATIONS_IDX,true);
+            }
+        });
         ImageButton profileButton = (ImageButton) navMenu.findViewById(R.id.profile);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(PROFILE_IDX,true);
+            }
+        });
     }
 
     @Override
@@ -110,39 +139,56 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
             super(fm);
         }
 
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             //return PlaceholderFragment.newInstance(position + 1);
             switch (position) {
-                case 0:
+                case HOME_IDX:
                     return HomeFragment.newInstance(1);
-                case 1:
+                case SEARCH_IDX:
+                    //TODO Replace with Search Fragment here
                     return HomeFragment.newInstance(1);
-                case 2:
+                case NEW_CHALLENGE_IDX:
+                    //TODO Replace with Challenge Fragment here
                     return HomeFragment.newInstance(1);
-                default: return null;
+                case NOTIFICATIONS_IDX:
+                    //TODO Replace with Notifications Fragment here
+                    return HomeFragment.newInstance(1);
+                case PROFILE_IDX:
+                    //TODO Replace with Profile Fragment here
+                    return HomeFragment.newInstance(1);
+                default: return HomeFragment.newInstance(1);
             }
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 5;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 0:
+                case HOME_IDX:
                     return getString(R.string.home_str);
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
+                case SEARCH_IDX:
+                    //TODO Add Search Title here
+                    return null;
+                case NEW_CHALLENGE_IDX:
+                    //TODO Add New Challenge Title here
+                    return null;
+                case NOTIFICATIONS_IDX:
+                    //TODO Add New Notifications Title here
+                    return null;
+                case PROFILE_IDX:
+                    //TODO Add Profile Title here
+                    return null;
+                default: return getString(R.string.home_str);
             }
-            return null;
         }
     }
 }
