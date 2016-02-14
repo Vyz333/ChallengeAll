@@ -1,5 +1,6 @@
 package kth.id2216.challengeall.Activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 
