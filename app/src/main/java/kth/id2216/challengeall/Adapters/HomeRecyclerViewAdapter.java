@@ -18,8 +18,10 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder> {
-
+public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
+    public static final int HEADER_ID = -1;
     private final List<Challenge> mValues;
     private final OnListFragmentInteractionListener mListener;
 
@@ -29,27 +31,36 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.challenge_item_home, parent, false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == TYPE_ITEM)
+            return new ViewHolderI(LayoutInflater.from(parent.getContext()).inflate(R.layout.challenge_item_home, parent, false));
+        else
+            return new ViewHolderH(LayoutInflater.from(parent.getContext()).inflate(R.layout.challenge_header_home, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).title);
-        holder.mContentView.setText(mValues.get(position).description);
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        Challenge c = mValues.get(position);
+        if(holder instanceof ViewHolderH){//Header View
+            ViewHolderH hholder = (ViewHolderH)holder;
+            hholder.mIdView.setText(c.title);
+        }else {//Item view
+            ViewHolderI iholder = (ViewHolderI)holder;
+            iholder.mItem = c;
+            iholder.mIdView.setText(c.title);
+            iholder.mContentView.setText(c.description);
+            final Challenge qc = c;
+            iholder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (null != mListener) {
+                        // Notify the active callbacks interface (the activity, if the
+                        // fragment is attached to one) that an item has been selected.
+                        mListener.onListFragmentInteraction(qc);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -57,13 +68,13 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolderI extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
         public Challenge mItem;
 
-        public ViewHolder(View view) {
+        public ViewHolderI(View view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.title);
@@ -74,5 +85,25 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";
         }
+    }
+    public class ViewHolderH extends RecyclerView.ViewHolder {
+        public final View mView;
+        public final TextView mIdView;
+        public Challenge mItem;
+
+        public ViewHolderH(View view) {
+            super(view);
+            mView = view;
+            mIdView = (TextView) view.findViewById(R.id.title);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        //We use challenges with id -1 as list header items
+        if(mValues.get(position).id== HEADER_ID)
+            return TYPE_HEADER;
+
+        return TYPE_ITEM;
     }
 }

@@ -76,16 +76,16 @@ public class HomeFragment extends Fragment {
     }
 
     public void fillList() {
-        Challenges.ITEMS.add(new Challenge(123, "title", "description", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(-1, "Weekly Challenges", "description", null, null, null, null));
         Challenges.ITEMS.add(new Challenge(1233, "title2", "description2", null, null, null, null));
         Challenges.ITEMS.add(new Challenge(123, "title3", "description", null, null, null, null));
         Challenges.ITEMS.add(new Challenge(1233, "title4", "description2", null, null, null, null));
         Challenges.ITEMS.add(new Challenge(123, "title5", "description", null, null, null, null));
-        Challenges.ITEMS.add(new Challenge(1233, "title6", "description2", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(-1, "Most Popular", "description2", null, null, null, null));
         Challenges.ITEMS.add(new Challenge(123, "title7", "description", null, null, null, null));
         Challenges.ITEMS.add(new Challenge(1233, "title8", "description2", null, null, null, null));
         Challenges.ITEMS.add(new Challenge(123, "title9", "description", null, null, null, null));
-        Challenges.ITEMS.add(new Challenge(1233, "title10", "description2", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(-1, "Monthly Challenges", "description2", null, null, null, null));
         Challenges.ITEMS.add(new Challenge(123, "title11", "description", null, null, null, null));
         Challenges.ITEMS.add(new Challenge(1233, "title12", "description2", null, null, null, null));
         Challenges.ITEMS.add(new Challenge(123, "title13", "description", null, null, null, null));
