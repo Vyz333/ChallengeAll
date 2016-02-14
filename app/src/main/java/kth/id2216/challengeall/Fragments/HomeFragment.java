@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,20 +62,40 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_list, container, false);
         // Set the adapter
         mListener.setToolbarTitle(getString(R.string.home_str));
+        fillList();
+        Context context = view.getContext();
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-
-            Challenges.ITEMS.add(new Challenge(123,"title","description",null,null,null,null));
-            Challenges.ITEMS.add(new Challenge(1233,"title2","description2",null,null,null,null));
-            recyclerView.setAdapter(new HomeRecyclerViewAdapter(Challenges.ITEMS, mListener));
+            LinearLayoutManager llm = new LinearLayoutManager(context);
+            llm.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(llm);
+            HomeRecyclerViewAdapter homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(Challenges.ITEMS, mListener);
+            recyclerView.setAdapter(homeRecyclerViewAdapter);
         }
         return view;
+    }
+
+    public void fillList() {
+        Challenges.ITEMS.add(new Challenge(123, "title", "description", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(1233, "title2", "description2", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(123, "title3", "description", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(1233, "title4", "description2", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(123, "title5", "description", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(1233, "title6", "description2", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(123, "title7", "description", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(1233, "title8", "description2", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(123, "title9", "description", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(1233, "title10", "description2", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(123, "title11", "description", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(1233, "title12", "description2", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(123, "title13", "description", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(1233, "title14", "description2", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(123, "title15", "description", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(1233, "title16", "description2", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(123, "title17", "description", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(1233, "title18", "description2", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(123, "title19", "description", null, null, null, null));
+        Challenges.ITEMS.add(new Challenge(1233, "title20", "description2", null, null, null, null));
     }
 
 
@@ -108,6 +129,7 @@ public class HomeFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Challenge c);
+
         void setToolbarTitle(String s);
     }
 }

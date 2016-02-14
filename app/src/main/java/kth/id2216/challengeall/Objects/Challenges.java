@@ -9,5 +9,4 @@ import java.util.List;
 public class Challenges {
     public static final List<Challenge> ITEMS = new ArrayList<Challenge>();
 
-
 }

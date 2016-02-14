@@ -30,7 +30,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_home, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.challenge_item_home, parent, false);
         return new ViewHolder(view);
     }
 
@@ -66,7 +66,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
+            mIdView = (TextView) view.findViewById(R.id.title);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 
