@@ -2,9 +2,15 @@
     <string name="app_name">Challenge All</string>
     <string name="action_settings">Settings</string>
     <string name="home_str">Home</string>
+    <string name="new_challenge_str">Create Challenge</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
-
+    <!-- Categories -->
+    <string-array name="categories_array">
+        <item>Sports</item>
+        <item>Education</item>
+        <item>Just for fun!</item>
+    </string-array>
     <!-- settings for General  -->
     <string name="pref_description_social_recommendations">hej</string>
     <string name="pref_header_general">General</string>

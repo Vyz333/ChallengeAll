@@ -7,7 +7,11 @@ android {
     defaultConfig {
         applicationId "kth.id2216.challengeall"
         minSdkVersion 19
+<<<<<<< HEAD
         targetSdkVersion 22
+=======
+        targetSdkVersion 19
+>>>>>>> origin/master
         versionCode 1
         versionName "1.0"
     }
