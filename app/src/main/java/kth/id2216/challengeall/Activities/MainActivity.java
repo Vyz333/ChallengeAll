@@ -1,12 +1,9 @@
 package kth.id2216.challengeall.Activities;
 
-<<<<<<< HEAD
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-=======
->>>>>>> origin/master
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -15,18 +12,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.ImageButton;
 
+import kth.id2216.challengeall.Fragments.CreateChallengeFragment;
 import kth.id2216.challengeall.Fragments.HomeFragment;
 import kth.id2216.challengeall.Objects.Challenge;
 import kth.id2216.challengeall.R;
 
 public class MainActivity extends AppCompatActivity  implements HomeFragment.OnListFragmentInteractionListener {
-
+    public static final String TAG = "MainActivity";
     public static final int HOME_IDX = 0;
     public static final int SEARCH_IDX = 1;
     public static final int NEW_CHALLENGE_IDX = 2;
@@ -153,6 +152,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             //return PlaceholderFragment.newInstance(position + 1);
+            getPageTitle(position);
             switch (position) {
                 case HOME_IDX:
                     return HomeFragment.newInstance(1);
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
                     return HomeFragment.newInstance(1);
                 case NEW_CHALLENGE_IDX:
                     //TODO Replace with Challenge Fragment here
-                    return HomeFragment.newInstance(1);
+                    return CreateChallengeFragment.newInstance(1);
                 case NOTIFICATIONS_IDX:
                     //TODO Replace with Notifications Fragment here
                     return HomeFragment.newInstance(1);
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
                     return null;
                 case NEW_CHALLENGE_IDX:
                     //TODO Add New Challenge Title here
-                    return null;
+                    return getString(R.string.new_challenge_str);
                 case NOTIFICATIONS_IDX:
                     //TODO Add New Notifications Title here
                     return null;
