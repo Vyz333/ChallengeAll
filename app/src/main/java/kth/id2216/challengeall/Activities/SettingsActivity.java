@@ -44,7 +44,7 @@ public class SettingsActivity extends PreferenceActivity{
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
-            setHasOptionsMenu(true);
+            //setHasOptionsMenu(true);
 
         }
 
@@ -59,7 +59,8 @@ public class SettingsActivity extends PreferenceActivity{
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_notification);
-            setHasOptionsMenu(true);
+            //getActivity().getLayoutInflater().inflate(R.layout.navigation_menu,);
+            //setHasOptionsMenu(true);
         }
 
     }
@@ -73,7 +74,7 @@ public class SettingsActivity extends PreferenceActivity{
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_data_sync);
-            setHasOptionsMenu(true);
+            //setHasOptionsMenu(true);
 
         }
     }
