@@ -6,6 +6,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <!-- Categories -->
+    <string name="category_prompt">Category</string>
     <string-array name="categories_array">
         <item>Sports</item>
         <item>Education</item>
