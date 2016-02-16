@@ -1,9 +1,5 @@
 package kth.id2216.challengeall.Activities;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
