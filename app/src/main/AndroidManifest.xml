@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".Activities.MainActivity">
             <meta-data

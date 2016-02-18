@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import kth.id2216.challengeall.Fragments.CreateChallengeFragment;
 import kth.id2216.challengeall.Fragments.HomeFragment;
 import kth.id2216.challengeall.Fragments.ProfileFragment;
+import kth.id2216.challengeall.Fragments.SearchFragment;
 import kth.id2216.challengeall.Objects.Challenge;
 import kth.id2216.challengeall.R;
 
@@ -195,8 +196,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
                 case HOME_IDX:
                     return HomeFragment.newInstance(HomeFragment.HOME_TYPE);
                 case SEARCH_IDX:
-                    //TODO Replace with Search Fragment here
-                    return HomeFragment.newInstance(0);
+                    return SearchFragment.newInstance(1);
                 case NEW_CHALLENGE_IDX:
                     //TODO Replace with Challenge Fragment here
                     return CreateChallengeFragment.newInstance(1);
@@ -221,8 +221,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
                 case HOME_IDX:
                     return getString(R.string.home_str);
                 case SEARCH_IDX:
-                    //TODO Add Search Title here
-                    return null;
+                    return getString(R.string.search_str);
                 case NEW_CHALLENGE_IDX:
                     return getString(R.string.new_challenge_str);
                 case NOTIFICATIONS_IDX:
@@ -236,3 +235,5 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
     }
 
 }
+
+
