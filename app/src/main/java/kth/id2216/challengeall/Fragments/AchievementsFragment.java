@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import kth.id2216.challengeall.Adapters.achievementRecyclerViewAdapter;
 import kth.id2216.challengeall.Objects.Achievement;
 import kth.id2216.challengeall.R;
-import kth.id2216.challengeall.Fragments.dummy.DummyContent;
 import kth.id2216.challengeall.Fragments.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
