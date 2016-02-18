@@ -130,12 +130,13 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivityForResult(intent,-1);
+                launchLogin();
             }
         });
     }
-
+    protected void launchLogin(){
+        startActivityForResult(new Intent(this, LoginActivity.class), 1);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
