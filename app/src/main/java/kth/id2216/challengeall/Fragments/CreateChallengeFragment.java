@@ -21,7 +21,7 @@ import kth.id2216.challengeall.R;
  * Use the {@link CreateChallengeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateChallengeFragment extends Fragment {
+public class CreateChallengeFragment extends Fragment{
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
