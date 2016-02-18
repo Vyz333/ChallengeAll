@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -17,11 +19,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import kth.id2216.challengeall.Fragments.CreateChallengeFragment;
 import kth.id2216.challengeall.Fragments.HomeFragment;
+
 import kth.id2216.challengeall.Fragments.NotificationFragment;
+
+import kth.id2216.challengeall.Fragments.ProfileFragment;
+
 import kth.id2216.challengeall.Objects.Challenge;
 import kth.id2216.challengeall.R;
 
@@ -30,8 +37,8 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
     public static final int HOME_IDX = 0;
     public static final int SEARCH_IDX = 1;
     public static final int NEW_CHALLENGE_IDX = 2;
-    public static final int NOTIFICATIONS_IDX = 4;
-    public static final int PROFILE_IDX = 5;
+    public static final int NOTIFICATIONS_IDX = 3;
+    public static final int PROFILE_IDX = 4;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -53,8 +60,13 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_menu_white_36dp);
         setSupportActionBar(toolbar);
         setupNavigation();
+
+    }
+
+    private void setupNavigation(){
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -62,40 +74,53 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-    }
+            }
 
-    private void setupNavigation(){
+            @Override
+            public void onPageSelected(int position) {
+                setTitle(mSectionsPagerAdapter.getPageTitle(position));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        setTitle(mSectionsPagerAdapter.getPageTitle(HOME_IDX));
         View navMenu = findViewById(R.id.nav_menu);
-        ImageButton homeButton = (ImageButton) navMenu.findViewById(R.id.home);
+        View homeButton =  findViewById(R.id.home_button);
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewPager.setCurrentItem(HOME_IDX,true);
             }
         });
-        ImageButton searchButton = (ImageButton) navMenu.findViewById(R.id.search);
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        View myChallengesButton = findViewById(R.id.favorites_button);
+        myChallengesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewPager.setCurrentItem(SEARCH_IDX,true);
             }
         });
-        ImageButton newChallengeButton = (ImageButton) navMenu.findViewById(R.id.new_challenge);
+        View newChallengeButton =  findViewById(R.id.new_challenge_button);
         newChallengeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewPager.setCurrentItem(NEW_CHALLENGE_IDX,true);
             }
         });
-        ImageButton notificationsButton = (ImageButton) navMenu.findViewById(R.id.notifications);
+        View notificationsButton =  findViewById(R.id.notifications_button);
         notificationsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewPager.setCurrentItem(NOTIFICATIONS_IDX,true);
             }
         });
-        ImageButton profileButton = (ImageButton) navMenu.findViewById(R.id.profile);
+        View profileButton = findViewById(R.id.profile_button);
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,14 +142,21 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+                if(drawer!=null)
+                    if(drawer.isDrawerOpen(GravityCompat.START))
+                        drawer.closeDrawer(GravityCompat.START);
+                    else
+                        drawer.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+                default:
+                    return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -132,7 +164,6 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
 
     }
 
-    @Override
     public void setToolbarTitle(String s) {
         getSupportActionBar().setTitle(s);
     }
@@ -147,35 +178,35 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
             super(fm);
         }
 
-
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             //return PlaceholderFragment.newInstance(position + 1);
-            getPageTitle(position);
             switch (position) {
                 case HOME_IDX:
-                    return HomeFragment.newInstance(1);
+                    return HomeFragment.newInstance(0);
                 case SEARCH_IDX:
                     //TODO Replace with Search Fragment here
-                    return HomeFragment.newInstance(1);
+                    return HomeFragment.newInstance(0);
                 case NEW_CHALLENGE_IDX:
                     //TODO Replace with Challenge Fragment here
                     return CreateChallengeFragment.newInstance(1);
                 case NOTIFICATIONS_IDX:
                     //TODO Replace with Notifications Fragment here
+
                     return NotificationFragment.newInstance(1);
+
+
                 case PROFILE_IDX:
-                    //TODO Replace with Profile Fragment here
-                    return HomeFragment.newInstance(1);
+                    return ProfileFragment.newInstance(1);
                 default: return HomeFragment.newInstance(1);
             }
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 5 total pages.
             return 5;
         }
 
@@ -188,16 +219,15 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
                     //TODO Add Search Title here
                     return null;
                 case NEW_CHALLENGE_IDX:
-                    //TODO Add New Challenge Title here
                     return getString(R.string.new_challenge_str);
                 case NOTIFICATIONS_IDX:
                     //TODO Add New Notifications Title here
                     return null;
                 case PROFILE_IDX:
-                    //TODO Add Profile Title here
-                    return null;
+                    return getString(R.string.profile_str);
                 default: return getString(R.string.home_str);
             }
         }
     }
+
 }

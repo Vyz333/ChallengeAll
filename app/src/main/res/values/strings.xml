@@ -3,8 +3,13 @@
     <string name="action_settings">Settings</string>
     <string name="home_str">Home</string>
     <string name="new_challenge_str">Create Challenge</string>
+    <string name="profile_str">Profile</string>
+    <string name="my_challenges_str">My Challenges</string>
+    <string name="notifications_str">Notifications</string>
+    <string name="action_login">Login</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet quam id quam cursus feugiat. Vestibulum nec mauris malesuada, cursus urna eu, rhoncus leo. Nam finibus mauris sed rutrum volutpat. Nunc sed sapien dapibus, maximus ante id, iaculis elit. Praesent sodales bibendum volutpat. Duis euismod laoreet nunc. Morbi vulputate, augue congue pharetra ullamcorper, lorem risus blandit tortor, vel tincidunt turpis erat sed massa. Donec varius commodo est vel convallis.</string>
     <!-- Categories -->
     <string name="category_prompt">Category</string>
     <string-array name="categories_array">
@@ -61,4 +66,7 @@
     </string-array>
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
