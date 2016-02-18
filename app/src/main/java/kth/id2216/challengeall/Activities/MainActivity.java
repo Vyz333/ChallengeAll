@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 
 import kth.id2216.challengeall.Fragments.CreateChallengeFragment;
 import kth.id2216.challengeall.Fragments.HomeFragment;
+import kth.id2216.challengeall.Fragments.NotificationFragment;
 import kth.id2216.challengeall.Objects.Challenge;
 import kth.id2216.challengeall.R;
 
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
                     return CreateChallengeFragment.newInstance(1);
                 case NOTIFICATIONS_IDX:
                     //TODO Replace with Notifications Fragment here
-                    return HomeFragment.newInstance(1);
+                    return NotificationFragment.newInstance(1);
                 case PROFILE_IDX:
                     //TODO Replace with Profile Fragment here
                     return HomeFragment.newInstance(1);
