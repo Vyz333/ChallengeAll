@@ -5,6 +5,9 @@
     <string name="new_challenge_str">Create Challenge</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="search_str">Search</string>
+    <string name="edit_message">Search</string>
+    <string name="button_send">Send</string>
     <!-- Categories -->
     <string name="category_prompt">Category</string>
     <string-array name="categories_array">
@@ -61,4 +64,8 @@
     </string-array>
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_search">SearchActivity</string>
 </resources>

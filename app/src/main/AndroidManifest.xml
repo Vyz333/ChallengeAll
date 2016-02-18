@@ -26,10 +26,8 @@
             android:label="@string/action_settings">
             <intent-filter>
                 <action android:name="android.intent.action.SETTINGS" />
-
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
