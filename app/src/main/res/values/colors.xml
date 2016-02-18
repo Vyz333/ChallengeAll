@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="splashBackground">#206fde</color>
     <color name="listBackground">#EEEEEE</color>
+    <color name="light_grey">#EEEEEE</color>
+    <color name="dark_grey">#333</color>
 </resources>
