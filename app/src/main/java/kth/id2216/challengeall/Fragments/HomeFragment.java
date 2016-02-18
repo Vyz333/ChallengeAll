@@ -1,6 +1,7 @@
 package kth.id2216.challengeall.Fragments;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,6 +33,8 @@ public class HomeFragment extends Fragment {
     public static final int HOME_TYPE = 0;
     public static final int ACCEPTED_TYPE = 1;
     public static final int HISTORY_TYPE = 2;
+    public static final int COLS_LANDSCAPE = 4;
+    public static final int COLS_PORTRAIT = 3;
 
     private int mListType = 0;
     private OnListFragmentInteractionListener mListener;
@@ -70,10 +73,16 @@ public class HomeFragment extends Fragment {
         Context context = view.getContext();
         if (view instanceof RecyclerView) {
             RecyclerView recyclerView = (RecyclerView) view;
-            //StaggeredGridLayoutManager
-            LinearLayoutManager llm = new LinearLayoutManager(context);
-            llm.setOrientation(LinearLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(llm);
+            //if(mListType==HOME_TYPE){
+            //    int ncolumns = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE?COLS_LANDSCAPE:COLS_PORTRAIT;
+            //    StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(ncolumns, StaggeredGridLayoutManager.VERTICAL);
+            //    recyclerView.setLayoutManager(sglm);
+            //}else{
+                LinearLayoutManager llm = new LinearLayoutManager(context);
+                llm.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(llm);
+            //}
+
             HomeRecyclerViewAdapter homeRecyclerViewAdapter = new HomeRecyclerViewAdapter(fillList(mListType), mListener);
             recyclerView.setAdapter(homeRecyclerViewAdapter);
         }

@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import kth.id2216.challengeall.Fragments.CreateChallengeFragment;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
     public static final int NEW_CHALLENGE_IDX = 2;
     public static final int NOTIFICATIONS_IDX = 3;
     public static final int PROFILE_IDX = 4;
+    public static final int MY_CHALLENGES_IDX = 5;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -123,6 +125,15 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
                 mViewPager.setCurrentItem(PROFILE_IDX,true);
             }
         });
+
+        Button loginButton = (Button)findViewById(R.id.login_button);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivityForResult(intent,-1);
+            }
+        });
     }
 
     @Override
@@ -181,7 +192,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
             //return PlaceholderFragment.newInstance(position + 1);
             switch (position) {
                 case HOME_IDX:
-                    return HomeFragment.newInstance(0);
+                    return HomeFragment.newInstance(HomeFragment.HOME_TYPE);
                 case SEARCH_IDX:
                     //TODO Replace with Search Fragment here
                     return HomeFragment.newInstance(0);
