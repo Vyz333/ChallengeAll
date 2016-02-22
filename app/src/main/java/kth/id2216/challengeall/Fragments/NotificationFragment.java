@@ -77,12 +77,12 @@ public class NotificationFragment extends Fragment {
 
     public List<Challenge> fillList() {
         List<Challenge> ITEMS = new ArrayList<>();
-       ITEMS.add(new Challenge(-1, "Friends Request", "description", null, null, null, null));
+       ITEMS.add(new Challenge(-1, "Friend Requests", "description", null, null, null, null));
        ITEMS.add(new Challenge(1233, "title2", "description2", null, null, null, null));
         ITEMS.add(new Challenge(123, "title3", "description", null, null, null, null));
         ITEMS.add(new Challenge(1233, "title4", "description2", null, null, null, null));
        ITEMS.add(new Challenge(123, "title5", "description", null, null, null, null));
-        ITEMS.add(new Challenge(-1, "Challenge request", "description2", null, null, null, null));
+        ITEMS.add(new Challenge(-1, "Challenge requests", "description2", null, null, null, null));
         ITEMS.add(new Challenge(123, "title7", "description", null, null, null, null));
       ITEMS.add(new Challenge(1233, "title8", "description2", null, null, null, null));
         ITEMS.add(new Challenge(123, "title9", "description", null, null, null, null));

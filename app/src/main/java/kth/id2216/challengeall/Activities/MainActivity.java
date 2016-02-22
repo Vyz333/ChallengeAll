@@ -29,11 +29,7 @@ import kth.id2216.challengeall.Fragments.HomeFragment;
 import kth.id2216.challengeall.Fragments.NotificationFragment;
 
 import kth.id2216.challengeall.Fragments.ProfileFragment;
-<<<<<<< HEAD
 import kth.id2216.challengeall.Fragments.SearchFragment;
-=======
-
->>>>>>> origin/master
 import kth.id2216.challengeall.Objects.Challenge;
 import kth.id2216.challengeall.R;
 
