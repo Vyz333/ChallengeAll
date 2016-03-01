@@ -39,10 +39,8 @@ public class NotificationFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static NotificationFragment newInstance(int columnCount) {
+    public static NotificationFragment newInstance(Bundle args) {
         NotificationFragment fragment = new NotificationFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
     }

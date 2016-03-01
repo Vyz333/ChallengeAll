@@ -24,10 +24,8 @@ public class ChallengeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ChallengeFragment newInstance(int columnCount) {
+    public static ChallengeFragment newInstance(Bundle args) {
         ChallengeFragment fragment = new ChallengeFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
     }

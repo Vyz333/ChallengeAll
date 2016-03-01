@@ -1,6 +1,8 @@
 package kth.id2216.challengeall.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,8 +23,18 @@ import android.view.View;
 
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
+import com.firebase.client.Firebase;
+
+import java.io.Serializable;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import kth.id2216.challengeall.Fragments.ChallengeFragment;
 import kth.id2216.challengeall.Fragments.CreateChallengeFragment;
 import kth.id2216.challengeall.Fragments.HomeFragment;
 
@@ -32,143 +44,142 @@ import kth.id2216.challengeall.Fragments.ProfileFragment;
 import kth.id2216.challengeall.Fragments.SearchFragment;
 import kth.id2216.challengeall.Objects.Challenge;
 import kth.id2216.challengeall.R;
+import kth.id2216.challengeall.interfaces.OnFragmentInteractionListener;
 
-public class MainActivity extends AppCompatActivity  implements HomeFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity  implements HomeFragment.OnListFragmentInteractionListener, OnFragmentInteractionListener {
+    /* Constants */
     public static final String TAG = "MainActivity";
     public static final int HOME_IDX = 0;
     public static final int SEARCH_IDX = 1;
     public static final int NEW_CHALLENGE_IDX = 2;
     public static final int NOTIFICATIONS_IDX = 3;
     public static final int PROFILE_IDX = 4;
-    public static final int MY_CHALLENGES_IDX = 5;
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    public static final int CHALLENGE_IDX = 5;
+    /*Bundle Keyes*/
+    public static final String PAGE_KEY = "page";
+    public static final String FRAG_ARGS = "frag_args";
+    public static final String FRAG_KEY = "frag";
+    /*Fragment tags*/
+    public static final String HOME_TAG="home";
+    public static final String CHALLENGE_TAG="challenge";
+    public static final String NEW_CHALLENGE_TAG="new_challenge";
+    public static  final String PROFILE_TAG="profile";
+    public static final String NOTIFICATIONS_TAG="notifications";
+    /* Activity variables */
+    protected Firebase mFirebaseRef;
+    protected Menu mMenu;
+    private ListView mListView;
+    private SectionsFragmentManager mSectionsFragmentManager;
+    private FrameLayout mFrameLayout;
+    private String currentKey;
+    private String currentAuthor;
+    private int previousItem;
+    private FragmentsEnum mCurrentPage;
+    @Bind(R.id.toolbar)
+    public Toolbar mToolbar;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mCurrentPage = savedInstanceState != null && savedInstanceState.containsKey(PAGE_KEY) ? (FragmentsEnum) savedInstanceState.getSerializable(PAGE_KEY) : FragmentsEnum.HOME;
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_menu_white_36dp);
-        setSupportActionBar(toolbar);
-        setupNavigation();
+        mFirebaseRef = new Firebase(getString(R.string.firebase_url));
+        ButterKnife.bind(this);
+        mToolbar.setNavigationIcon(R.drawable.ic_menu_white_36dp);
+        setSupportActionBar(mToolbar);
+        setupNavigation(savedInstanceState);
 
     }
-
-    private void setupNavigation(){
+    private void setupNavigation(Bundle savedInstanceState) {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                setTitle(mSectionsPagerAdapter.getPageTitle(position));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        setTitle(mSectionsPagerAdapter.getPageTitle(HOME_IDX));
-        View navMenu = findViewById(R.id.nav_menu);
-        View homeButton =  findViewById(R.id.home_button);
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(HOME_IDX,true);
-            }
-        });
-        View myChallengesButton = findViewById(R.id.favorites_button);
-        myChallengesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(SEARCH_IDX,true);
-            }
-        });
-        View newChallengeButton =  findViewById(R.id.new_challenge_button);
-        newChallengeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(NEW_CHALLENGE_IDX,true);
-            }
-        });
-        View notificationsButton =  findViewById(R.id.notifications_button);
-        notificationsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(NOTIFICATIONS_IDX,true);
-            }
-        });
-        View profileButton = findViewById(R.id.profile_button);
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(PROFILE_IDX,true);
-            }
-        });
-
-        Button loginButton = (Button)findViewById(R.id.login_button);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchLogin();
-            }
-        });
-    }
-    protected void launchLogin(){
-        startActivityForResult(new Intent(this, LoginActivity.class), 1);
+        mSectionsFragmentManager = new SectionsFragmentManager(this.getBaseContext(),getSupportFragmentManager(), R.id.container);
+        if (savedInstanceState == null) {
+            mSectionsFragmentManager.setPage(mCurrentPage, savedInstanceState);
+        } else {
+            Fragment f = getSupportFragmentManager().getFragment(savedInstanceState, FRAG_KEY);
+            mSectionsFragmentManager.setCurrentFragment(f);
+        }
+        getSupportActionBar().setTitle(mCurrentPage.getTitle(this));
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        mMenu = menu;
+        updateMenu();
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
-                DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
-                if(drawer!=null)
-                    if(drawer.isDrawerOpen(GravityCompat.START))
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                if (drawer != null)
+                    if (drawer.isDrawerOpen(GravityCompat.START))
                         drawer.closeDrawer(GravityCompat.START);
                     else
                         drawer.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+                startActivityForResult(new Intent(this, SettingsActivity.class), 1);
                 return true;
-                default:
-                    return super.onOptionsItemSelected(item);
+            case R.id.action_login:
+                launchLogin();
+                updateMenu();
+                return true;
+            case R.id.action_logout:
+                mFirebaseRef.unauth();
+                SharedPreferences.Editor e = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE).edit();
+                e.remove("username");
+                e.remove("user");
+                e.remove("id");
+                e.commit();
+                updateMenu();
+                Log.i(TAG, "User Logged out.");
+                return true;
+            case R.id.create_session:
+                if (mFirebaseRef.getAuth() != null) {
+                    mSectionsFragmentManager.setPage(FragmentsEnum.NEW_CHALLENGE, null);
+                    return true;
+                } else {
+                    launchLogin();
+                    updateMenu();
+                    return true;
+                }
         }
+        ;
+        return super.onOptionsItemSelected(item);
+    }
+    void updateMenu() {
+        MenuItem loginActionView = mMenu.findItem(R.id.action_login);
+        MenuItem logoutActionView = mMenu.findItem(R.id.action_logout);
+        if (mFirebaseRef.getAuth() == null) {
+            loginActionView.setVisible(true);
+            logoutActionView.setVisible(false);
+        } else {
+            loginActionView.setVisible(false);
+            logoutActionView.setVisible(true);
+        }
+    }
+    @OnClick(R.id.login_button)
+    protected void launchLogin() {
+        startActivityForResult(new Intent(this, LoginActivity.class), 1);
+    }
+
+    @OnClick({R.id.home_button, R.id.notifications_button,R.id.new_challenge_button, R.id.profile_button})
+    public void onDrawerButtonClick(View v) {
+        mSectionsFragmentManager.setPage(FragmentsEnum.valueOf((String) v.getTag()), null);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Firebase.setAndroidContext(this);
     }
 
     @Override
@@ -180,66 +191,109 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
         getSupportActionBar().setTitle(s);
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            //return PlaceholderFragment.newInstance(position + 1);
-            switch (position) {
-                case HOME_IDX:
-                    return HomeFragment.newInstance(HomeFragment.HOME_TYPE);
-                case SEARCH_IDX:
-                    return SearchFragment.newInstance(1);
-                case NEW_CHALLENGE_IDX:
-                    //TODO Replace with Challenge Fragment here
-                    return CreateChallengeFragment.newInstance(1);
-                case NOTIFICATIONS_IDX:
-                    //TODO Replace with Notifications Fragment here
-
-                    return NotificationFragment.newInstance(1);
-
-
-                case PROFILE_IDX:
-                    return ProfileFragment.newInstance(1);
-                default: return HomeFragment.newInstance(1);
-            }
-        }
-
-        @Override
-        public int getCount() {
-            // Show 5 total pages.
-            return 5;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case HOME_IDX:
-                    return getString(R.string.home_str);
-                case SEARCH_IDX:
-                    return getString(R.string.search_str);
-                case NEW_CHALLENGE_IDX:
-                    return getString(R.string.new_challenge_str);
-                case NOTIFICATIONS_IDX:
-                    //TODO Add New Notifications Title here
-                    return null;
-                case PROFILE_IDX:
-                    return getString(R.string.profile_str);
-                default: return getString(R.string.home_str);
-            }
+    @Override
+    public void onFragmentInteraction(int id, Bundle args) {
+        switch (id){
+            case NEW_CHALLENGE_IDX:
+                onBackPressed();
+                break;
         }
     }
 
+
+    public enum FragmentsEnum implements Serializable {
+
+        HOME(HOME_TAG, R.string.home_str) {
+            @Override
+            public Fragment getInstance(Bundle args) {
+                return HomeFragment.newInstance(args);
+            }
+        },
+        CHALLENGE(CHALLENGE_TAG, R.string.home_str) {
+            @Override
+            public Fragment getInstance(Bundle args) {
+                return ChallengeFragment.newInstance(args);
+            }
+        },
+        NEW_CHALLENGE(NEW_CHALLENGE_TAG, R.string.new_challenge_str) {
+            @Override
+            public Fragment getInstance(Bundle args) {
+                return CreateChallengeFragment.newInstance(args);
+            }
+        },
+        PROFILE(PROFILE_TAG, R.string.profile_str) {
+            @Override
+            public Fragment getInstance(Bundle args) {
+                return ProfileFragment.newInstance(args);
+            }
+        },
+        NOTIFICATIONS(NOTIFICATIONS_TAG, R.string.notifications_str) {
+            @Override
+            public Fragment getInstance(Bundle args) {
+                return NotificationFragment.newInstance(args);
+            }
+        };
+        private final String tag;
+        private final int titleId;
+
+        private FragmentsEnum(final String tag, final int titleId) {
+            this.tag = tag;
+            this.titleId = titleId;
+        }
+
+        public String getTag(){
+            return tag;
+        }
+        public String getTitle(Context ctx){
+            return ctx.getString(titleId);
+        }
+        public abstract Fragment getInstance(Bundle args);
+    }
+
+    private class SectionsFragmentManager {
+        Fragment mCurrentFragment;
+        FragmentManager mFragmentManager;
+        Context mContext;
+        int mContainerId;
+
+        public SectionsFragmentManager(Context context,FragmentManager fm, int containerId) {
+            mContext = context;
+            mFragmentManager = fm;
+            mContainerId = containerId;
+        }
+
+        public void setPage(FragmentsEnum page, Bundle args) {
+            mCurrentPage = page;
+            if (mFragmentManager.getBackStackEntryCount() > 6) {
+                mFragmentManager.popBackStack(); // remove one (you can also remove more)
+            }
+
+            mCurrentFragment = page.getInstance(args);
+            getSupportActionBar().setTitle(page.getTitle(mContext));
+            mFragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.abc_popup_enter, R.anim.abc_fade_out)
+                    .add(mContainerId, mCurrentFragment, page.getTag())
+                    .addToBackStack(page.getTag())
+                    .commit();
+
+        }
+
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
+        }
+
+        public void setCurrentFragment(Fragment f) {
+            mCurrentFragment = f;
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            super.onBackPressed();
+            mSectionsFragmentManager.setCurrentFragment(getSupportFragmentManager().findFragmentById(R.id.container));
+            getSupportActionBar().setTitle(mCurrentPage.getTitle(this));
+        }
+    }
 }
 
 

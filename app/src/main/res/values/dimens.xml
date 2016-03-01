@@ -13,4 +13,5 @@
     <dimen name="card_title_size_staggered">21dp</dimen>
     <dimen name="profile_pic_w">200dp</dimen>
     <dimen name="drawer_width">220dp</dimen>
+    <dimen name="large_thumb_side">300dp</dimen>
 </resources>

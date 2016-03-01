@@ -101,7 +101,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
     @Override
     public int getItemViewType(int position) {
         //We use challenges with id -1 as list header items
-        if(mValues.get(position).id== HEADER_ID)
+        if(Long.parseLong(mValues.get(position).id)== HEADER_ID)
             return TYPE_HEADER;
 
         return TYPE_ITEM;

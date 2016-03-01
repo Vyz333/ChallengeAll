@@ -7,4 +7,14 @@
     <color name="listBackground">#EEEEEE</color>
     <color name="light_grey">#EEEEEE</color>
     <color name="dark_grey">#333</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="red_delete">#F00</color>
+    <color name="green_edit">#0F0</color>
+    <color name="list_background">#ced2ce</color>
+    <color name="grey">#333</color>
+    <color name="mid_grey">#777</color>
+    <color name="twitter_blue">#4099FF</color>
+    <color name="registration_red">#CC1111</color>
+    <color name="transparent_white">#F1F1F1</color>
+    <color name="img_gray">#EAEAEA</color>
 </resources>
