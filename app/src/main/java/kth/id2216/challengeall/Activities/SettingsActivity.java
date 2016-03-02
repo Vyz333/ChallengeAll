@@ -31,14 +31,14 @@ public class SettingsActivity extends PreferenceActivity{
      */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || GeneralPreferenceFragment.class.getName().equals(fragmentName)
+              //  || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || NotificationPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName);
     }
     /**
      * This fragment shows general preferences only.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+   /* @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class SettingsActivity extends PreferenceActivity{
 
         }
 
-    }
+    }*/
 
     /**
      * This fragment shows notification preferences only.

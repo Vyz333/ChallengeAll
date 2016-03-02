@@ -27,6 +27,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.facebook.appevents.AppEventsLogger;
 import com.firebase.client.Firebase;
 
 import java.io.Serializable;
@@ -45,6 +46,7 @@ import kth.id2216.challengeall.Fragments.SearchFragment;
 import kth.id2216.challengeall.Objects.Challenge;
 import kth.id2216.challengeall.R;
 import kth.id2216.challengeall.interfaces.OnFragmentInteractionListener;
+import com.facebook.FacebookSdk;
 
 public class MainActivity extends AppCompatActivity  implements HomeFragment.OnListFragmentInteractionListener, OnFragmentInteractionListener {
     /* Constants */
@@ -180,6 +182,8 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
     protected void onResume() {
         super.onResume();
         Firebase.setAndroidContext(this);
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
     }
 
     @Override
@@ -209,12 +213,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
                 return HomeFragment.newInstance(args);
             }
         },
-        CHALLENGE(CHALLENGE_TAG, R.string.home_str) {
-            @Override
-            public Fragment getInstance(Bundle args) {
-                return ChallengeFragment.newInstance(args);
-            }
-        },
+
         NEW_CHALLENGE(NEW_CHALLENGE_TAG, R.string.new_challenge_str) {
             @Override
             public Fragment getInstance(Bundle args) {
@@ -285,6 +284,13 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
         public void setCurrentFragment(Fragment f) {
             mCurrentFragment = f;
         }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
     }
     @Override
     public void onBackPressed() {

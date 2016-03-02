@@ -77,15 +77,12 @@
                 android:background="@color/mid_grey"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold"/>
-            <Button
-                android:id="@+id/twitter_sign_in_button"
-                style="?android:textAppearanceSmall"
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@color/twitter_blue"
-                android:text="@string/action_twitter_login"
-                android:textStyle="bold"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"/>
             <Button
                 android:id="@+id/sign_up_button"
                 style="?android:textAppearanceSmall"
