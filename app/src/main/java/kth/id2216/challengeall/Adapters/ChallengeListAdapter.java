@@ -97,6 +97,7 @@ public class ChallengeListAdapter extends FirebaseListAdapter<Challenge> {
                     Bundle args = new Bundle();
                     args.putString("id", key);
                     args.putString("author", iholder.mItem.getAuthor());
+                    args.putSerializable("challenge",iholder.mItem);
                     mOnFragmentInteractionListener.onFragmentInteraction(MainActivity.CHALLENGE_IDX, args);
                 }
             });

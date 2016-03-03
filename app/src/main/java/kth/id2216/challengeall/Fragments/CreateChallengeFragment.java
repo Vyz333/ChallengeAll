@@ -105,7 +105,7 @@ public class CreateChallengeFragment extends Fragment implements OnPutImageListe
         if (savedInstanceState != null) {
             mChallenge = (Challenge)savedInstanceState.getSerializable(CHALLENGE_KEY);
             mCurrentItem = savedInstanceState.getInt(PAGE_KEY, 0);
-            mUri = Uri.parse(savedInstanceState.getString(URI_KEY));
+            mUri = Uri.parse(savedInstanceState.getString(URI_KEY,null));
         }
         mChallenge = mChallenge == null ? new Challenge() : mChallenge;
         mFirebaseRef = new Firebase(getString(R.string.firebase_url));

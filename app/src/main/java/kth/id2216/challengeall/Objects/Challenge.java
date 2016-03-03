@@ -1,5 +1,9 @@
 package kth.id2216.challengeall.Objects;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -102,5 +106,13 @@ public class Challenge implements Serializable{
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Bitmap getBitmap(){
+        if(img!=null){
+            byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        }
+        return null;
     }
 }

@@ -202,6 +202,9 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
     @Override
     public void onFragmentInteraction(int id, Bundle args) {
         switch (id){
+            case CHALLENGE_IDX:
+                mSectionsFragmentManager.setPage(FragmentsEnum.CHALLENGE,args);
+                break;
             case NEW_CHALLENGE_IDX:
                 mSectionsFragmentManager.setPage(FragmentsEnum.HOME,args);
                 break;
@@ -215,6 +218,12 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
             @Override
             public Fragment getInstance(Bundle args) {
                 return HomeFragment.newInstance(args);
+            }
+        },
+        CHALLENGE(CHALLENGE_TAG, R.string.my_challenges_str) {
+            @Override
+            public Fragment getInstance(Bundle args) {
+                return ChallengeFragment.newInstance(args);
             }
         },
 

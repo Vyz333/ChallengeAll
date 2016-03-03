@@ -1,18 +1,28 @@
 package kth.id2216.challengeall.Fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import kth.id2216.challengeall.Objects.User;
 import kth.id2216.challengeall.R;
 
 /**
@@ -25,9 +35,14 @@ public class ProfileFragment extends Fragment {
     private static final int CHALLENGES_IDX = 0;
     private static final int ACHIEVEMENTS_IDX = 1;
     private static final int HISTORY_IDX = 2;
+    @Bind(R.id.profile_pic) public ImageView mImageView;
+    @Bind(R.id.profile_desc) public TextView mDescView;
+    @Bind(R.id.pager) public ViewPager mViewPager;
+    @Bind(R.id.profile_name)  TextView mTitleView;
+    private User mUser;
 
     private SubSectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+
 
     public static ProfileFragment newInstance(Bundle args) {
         ProfileFragment fragment = new ProfileFragment();
@@ -41,15 +56,28 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        Gson gson = new Gson();
 
-        }
+        if(savedInstanceState==null)
+            mUser = gson.fromJson(getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).getString("user", null), User.class);
+        else
+            mUser=(User)savedInstanceState.getSerializable("user");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        ButterKnife.bind(this, view);
+
+
+        byte[] decodedString = Base64.decode(mUser.getAvatar(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        mImageView.setImageBitmap(decodedByte);
+
+        mDescView.setText(mUser.getTwitter_bio());
+        mTitleView.setText(mUser.getFirstName()+" "+mUser.getLastName());
+
         setupNavigation(view);
         return view;
 
@@ -61,7 +89,6 @@ public class ProfileFragment extends Fragment {
         mSectionsPagerAdapter = new SubSectionsPagerAdapter(getActivity().getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) view.findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         View profMenu = view.findViewById(R.id.prof_menu);
@@ -88,6 +115,13 @@ public class ProfileFragment extends Fragment {
         });
 
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("user",mUser);
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
