@@ -62,6 +62,8 @@
     <string name="ns_challenge_name">Give your challenge a name</string>
     <string name="ns_challenge_description">Describe your challenge</string>
     <string name="ns_category">Choose a category</string>
+    <string name="ns_deadline">Choose a a deadline for your challenge (or not)</string>
+    <string name="ns_no_deadline">My challenge has no set deadline.</string>
     <string name="ns_image">Add an image</string>
     <string name="ns_creating_text">Posting...</string>
     <string name="prompt_name">Challenge Name</string>

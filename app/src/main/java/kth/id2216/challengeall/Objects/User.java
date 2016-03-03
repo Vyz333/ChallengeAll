@@ -14,6 +14,7 @@ public class User implements Serializable {
     private String twitter_username;
     private String twitter_bio;
     private List<String> likes;
+    private List<String> challenges;
 
     public void setLikes(List<String> likes){this.likes=likes;}
     public void setAvatar(String avatar) {
@@ -63,6 +64,14 @@ public class User implements Serializable {
 
     public String getTwitter_bio() {
         return twitter_bio;
+    }
+
+    public List<String> getChallenges() {
+        return challenges;
+    }
+
+    public void setChallenges(List<String> challenges) {
+        this.challenges = challenges;
     }
 
     public User(String avatar, String firstName, String lastName, String email, String twitter_username, String twitter_bio) {

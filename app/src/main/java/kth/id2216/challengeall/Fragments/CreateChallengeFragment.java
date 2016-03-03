@@ -12,16 +12,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -37,6 +41,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import kth.id2216.challengeall.Activities.LoginActivity;
 import kth.id2216.challengeall.Activities.MainActivity;
 import kth.id2216.challengeall.Objects.Challenge;
 import kth.id2216.challengeall.Objects.MultipartFormField;
@@ -105,7 +110,7 @@ public class CreateChallengeFragment extends Fragment implements OnPutImageListe
         mChallenge = mChallenge == null ? new Challenge() : mChallenge;
         mFirebaseRef = new Firebase(getString(R.string.firebase_url));
         mNewChallengeViewsManager = new NewChallengeViewsManager();
-
+        mListener = (OnFragmentInteractionListener)getActivity();
     }
 
     @Override
@@ -350,9 +355,9 @@ public class CreateChallengeFragment extends Fragment implements OnPutImageListe
                 if(mUri!=null){
                     ButterKnife.findById(layout,R.id.new_challenge_avatar_layout).setVisibility(View.GONE);
                     ImageView resultView = (ImageView)layout.findViewById(R.id.new_challenge_selected_img);
-                    resultView.setVisibility(View.VISIBLE);
-                    resultView.setImageResource(R.drawable.ic_add_a_photo_black_48dp);
-                    resultView.setImageURI(mUri);
+                    //resultView.setVisibility(View.VISIBLE);
+                    //resultView.setImageResource(R.drawable.ic_add_a_photo_black_48dp);
+                    //resultView.setImageURI(mUri);
                     resultView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -366,8 +371,6 @@ public class CreateChallengeFragment extends Fragment implements OnPutImageListe
                         EasyImage.openChooserWithDocuments(CreateChallengeFragment.this, mChallenge.getTitle(), 1);
                     }
                 });
-
-
             }
 
             public boolean onValidate() {
@@ -383,7 +386,30 @@ public class CreateChallengeFragment extends Fragment implements OnPutImageListe
 
 
     }
+    public class DeadlineField extends MultipartFormField {
+        private CheckBox mCheckbox;
+        private TimePicker mTimePicker;
+        private DatePicker mDatePicker;
 
+        public int getTitle() {
+            return R.string.ns_deadline;
+        }
+
+        public int getLayout() {
+            return R.layout.new_challenge_deadline;
+        }
+
+        public boolean onValidate() {
+            return true;
+        }
+
+        public void onSetup(ViewGroup layout) {
+
+
+
+        }
+
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -419,6 +445,7 @@ public class CreateChallengeFragment extends Fragment implements OnPutImageListe
     }
     @Override
     public void onSuccess(String url) {
+        getActivity().getFragmentManager().popBackStack();
         mListener.onFragmentInteraction(MainActivity.NEW_CHALLENGE_IDX,null);
     }
     private class NewChallengePagerAdapter extends PagerAdapter {

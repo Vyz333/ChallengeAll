@@ -53,7 +53,7 @@ public class CreateChallengeTask extends AsyncTask<Uri, String, String> {
     }
     protected void onPreExecute() {
         dialog = new ProgressDialog(mContext);
-        dialog.setMessage(mContext.getString(R.string.reg_creating_text));
+        dialog.setMessage(mContext.getString(R.string.ns_creating_text));
         dialog.setCancelable(false);
         if(mShowDialog){
             dialog.show();
@@ -76,6 +76,9 @@ public class CreateChallengeTask extends AsyncTask<Uri, String, String> {
     protected void onPostExecute(String result) {
         if(mShowDialog){
             dialog.dismiss();
+        }
+        if(mListener != null){
+            mListener.onSuccess(null);
         }
     }
 
@@ -116,9 +119,6 @@ public class CreateChallengeTask extends AsyncTask<Uri, String, String> {
             mChallenge.setId(ref.getKey());
             ref.setValue(mChallenge);
             Log.i(TAG,"Challenge created:"+mChallenge.toString());
-            if(mListener != null){
-                mListener.onSuccess(null);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

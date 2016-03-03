@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
 
 public class NonSwipeableViewPager extends ViewPager {
 
@@ -26,4 +28,5 @@ public class NonSwipeableViewPager extends ViewPager {
         // Never allow swiping to switch between pages
         return false;
     }
+
 }

@@ -174,7 +174,11 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
 
     @OnClick({R.id.home_button, R.id.notifications_button,R.id.new_challenge_button, R.id.profile_button})
     public void onDrawerButtonClick(View v) {
-        mSectionsFragmentManager.setPage(FragmentsEnum.valueOf((String) v.getTag()), null);
+        FragmentsEnum page = FragmentsEnum.valueOf((String) v.getTag());
+        if(mFirebaseRef.getAuth()==null || getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE).getString("user",null)==null)
+            launchLogin();
+        else
+            mSectionsFragmentManager.setPage(page, null);
     }
 
 
@@ -199,7 +203,7 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
     public void onFragmentInteraction(int id, Bundle args) {
         switch (id){
             case NEW_CHALLENGE_IDX:
-                onBackPressed();
+                mSectionsFragmentManager.setPage(FragmentsEnum.HOME,args);
                 break;
         }
     }
