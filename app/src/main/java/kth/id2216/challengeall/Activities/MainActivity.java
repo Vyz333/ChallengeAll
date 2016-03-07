@@ -162,9 +162,11 @@ public class MainActivity extends AppCompatActivity  implements HomeFragment.OnL
         if (mFirebaseRef.getAuth() == null) {
             loginActionView.setVisible(true);
             logoutActionView.setVisible(false);
+            ButterKnife.findById(this,R.id.login_button).setVisibility(View.VISIBLE);
         } else {
             loginActionView.setVisible(false);
             logoutActionView.setVisible(true);
+            ButterKnife.findById(this,R.id.login_button).setVisibility(View.GONE);
         }
     }
     @OnClick(R.id.login_button)

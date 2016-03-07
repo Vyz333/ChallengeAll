@@ -7,7 +7,9 @@
     <string name="home_str">Home</string>
     <string name="new_challenge_str">Create Challenge</string>
     <string name="profile_str">Profile</string>
-    <string name="my_challenges_str">My Challenges</string>
+    <string name="my_challenges_str">Accepted Challenges</string>
+    <string name="achievements_str">Achievements</string>
+    <string name="history_str">Created Challenges</string>
     <string name="notifications_str">Notifications</string>
     <string name="action_login">Login</string>
     <string name="action_logout">Logout</string>

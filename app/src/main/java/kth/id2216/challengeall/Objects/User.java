@@ -2,6 +2,7 @@ package kth.id2216.challengeall.Objects;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Vyz on 2015-12-29.
@@ -11,10 +12,11 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
+
     private String twitter_username;
     private String twitter_bio;
     private List<String> likes;
-    private List<String> challenges;
+    private Map<String,Object> challenges;
 
     public void setLikes(List<String> likes){this.likes=likes;}
     public void setAvatar(String avatar) {
@@ -66,11 +68,11 @@ public class User implements Serializable {
         return twitter_bio;
     }
 
-    public List<String> getChallenges() {
+    public Map<String,Object> getChallenges() {
         return challenges;
     }
 
-    public void setChallenges(List<String> challenges) {
+    public void setChallenges(Map<String,Object> challenges) {
         this.challenges = challenges;
     }
 

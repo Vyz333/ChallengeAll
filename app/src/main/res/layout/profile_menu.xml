@@ -11,24 +11,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
+        <Button
             android:id="@+id/accepted_challenges"
+            android:tag="0"
             android:layout_weight="1"
+            android:text="@string/my_challenges_str"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/prof_button"
             android:src="@drawable/ic_check_circle_black_36dp" />
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/achievements"
+            android:tag="1"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="@drawable/prof_button"
-            android:src="@drawable/ic_stars_black_36dp" />
-        <ImageButton
+            android:src="@drawable/ic_stars_black_36dp" />-->
+        <Button
             android:id="@+id/history"
+            android:tag="1"
             android:layout_weight="1"
+            android:text="@string/history_str"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/prof_button"

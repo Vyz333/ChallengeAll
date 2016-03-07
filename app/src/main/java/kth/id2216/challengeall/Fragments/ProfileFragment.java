@@ -8,7 +8,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,10 +23,23 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import kth.id2216.challengeall.Adapters.ChallengeLinearListAdapter;
+import kth.id2216.challengeall.Adapters.ChallengeListAdapter;
+import kth.id2216.challengeall.Objects.MultipartFormField;
 import kth.id2216.challengeall.Objects.User;
 import kth.id2216.challengeall.R;
 
@@ -40,8 +58,10 @@ public class ProfileFragment extends Fragment {
     @Bind(R.id.pager) public ViewPager mViewPager;
     @Bind(R.id.profile_name)  TextView mTitleView;
     private User mUser;
+    private ProfileViewsManager mProfileViewsManager;
+    private Firebase mFirebaseRef;
 
-    private SubSectionsPagerAdapter mSectionsPagerAdapter;
+    private ProfileSectionsPagerAdapter mSectionsPagerAdapter;
 
 
     public static ProfileFragment newInstance(Bundle args) {
@@ -56,6 +76,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFirebaseRef = new Firebase(getString(R.string.firebase_url));
         Gson gson = new Gson();
 
         if(savedInstanceState==null)
@@ -76,44 +97,26 @@ public class ProfileFragment extends Fragment {
         mImageView.setImageBitmap(decodedByte);
 
         mDescView.setText(mUser.getTwitter_bio());
-        mTitleView.setText(mUser.getFirstName()+" "+mUser.getLastName());
+        mTitleView.setText(mUser.getFirstName() + " " + mUser.getLastName());
 
-        setupNavigation(view);
+        setupNavigation(view,inflater);
         return view;
 
     }
 
-    private void setupNavigation(View view){
+    private void setupNavigation(View view,LayoutInflater inflater){
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SubSectionsPagerAdapter(getActivity().getSupportFragmentManager());
+        mProfileViewsManager = new ProfileViewsManager();
+        mSectionsPagerAdapter = new ProfileSectionsPagerAdapter(inflater);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        View profMenu = view.findViewById(R.id.prof_menu);
-        ImageButton acceptedButton = (ImageButton) profMenu.findViewById(R.id.accepted_challenges);
-        acceptedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(CHALLENGES_IDX,true);
-            }
-        });
-        ImageButton achievementsButton = (ImageButton) profMenu.findViewById(R.id.achievements);
-        achievementsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(ACHIEVEMENTS_IDX,true);
-            }
-        });
-        ImageButton historyButton = (ImageButton) profMenu.findViewById(R.id.history);
-        historyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(HISTORY_IDX,true);
-            }
-        });
-
+    }
+    @OnClick({R.id.accepted_challenges,R.id.history})
+    public void pagerClick(View view){
+        int idx = Integer.parseInt((String) view.getTag());
+        mViewPager.setCurrentItem(idx, true);
     }
 
     @Override
@@ -127,52 +130,114 @@ public class ProfileFragment extends Fragment {
         super.onDetach();
     }
 
+    public class ProfileViewsManager {
+        public List<MultipartFormField> list;
 
-    public class SubSectionsPagerAdapter extends FragmentPagerAdapter {
+        public ProfileViewsManager() {
+            list = new ArrayList<MultipartFormField>();
+            list.add(new AcceptedChallengesField());
+            list.add(new CreatedChallengesField());
 
-        public SubSectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
         }
 
 
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            //return PlaceholderFragment.newInstance(position + 1);
-            getPageTitle(position);
-            Bundle args = new Bundle();
-            switch (position) {
-                case CHALLENGES_IDX:
-                    args.putInt(HomeFragment.ARG_LIST_TYPE, HomeFragment.ACCEPTED_TYPE);
-                    return HomeFragment.newInstance(args);
-                case ACHIEVEMENTS_IDX:
-                    return AchievementsFragment.newInstance(3);
-                case HISTORY_IDX:
-                    args.putInt(HomeFragment.ARG_LIST_TYPE, HomeFragment.HISTORY_TYPE);
-                    return HomeFragment.newInstance(args);
-                default: return CreateChallengeFragment.newInstance(null);
+        public class AcceptedChallengesField extends MultipartFormField {
+            public int getTitle() {
+                return R.string.ns_challenge_name;
             }
+
+            public int getLayout() {
+                return R.layout.profile_accepted_challenges;
+            }
+
+            public boolean onValidate() {
+                return true;
+            }
+
+            public void onSetup(ViewGroup layout) {
+                Map<String,Object> m = mUser.getChallenges();
+                if(m!=null) {
+                    final RecyclerView recyclerView = ButterKnife.findById(layout, R.id.accepted_challenges_list);
+                    final Firebase f = mFirebaseRef.child("challenges");
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    String uid = mFirebaseRef.getAuth().getUid();
+                    final ChallengeLinearListAdapter challengeLinearListAdapter = new ChallengeLinearListAdapter(f, (AppCompatActivity) getActivity(), 1, mUser.getChallenges());
+                    recyclerView.setAdapter(challengeLinearListAdapter);
+
+                    mFirebaseRef.child("users/"+uid).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            mUser = new Gson().fromJson(getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).getString("user", null), User.class);
+                            ChallengeLinearListAdapter challengeLinearListAdapter = new ChallengeLinearListAdapter(f, (AppCompatActivity) getActivity(), 1, mUser.getChallenges());
+                            recyclerView.setAdapter(challengeLinearListAdapter);
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
+                }
+            }
+        }
+
+        public class CreatedChallengesField extends MultipartFormField {
+            public int getTitle() {
+                return R.string.ns_challenge_name;
+            }
+
+            public int getLayout() {
+                return R.layout.profile_accepted_challenges;
+            }
+
+            public boolean onValidate() {
+                return true;
+            }
+
+            public void onSetup(ViewGroup layout) {
+                mUser.getEmail();
+                Query q = mFirebaseRef.child("challenges").orderByChild("author").equalTo(mUser.getEmail());
+                    RecyclerView recyclerView = ButterKnife.findById(layout, R.id.accepted_challenges_list);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    recyclerView.setAdapter(new ChallengeListAdapter(q, (AppCompatActivity) getActivity(), 1, false));
+            }
+        }
+    }
+    public class ProfileSectionsPagerAdapter extends PagerAdapter {
+        LayoutInflater mInflater;
+        MultipartFormField mCurrentPage;
+
+        public ProfileSectionsPagerAdapter(LayoutInflater inflater){
+            mInflater = inflater;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup collection, int position) {
+            mCurrentPage = mProfileViewsManager.list.get(position);
+            ViewGroup layout = (ViewGroup) mInflater.inflate(mCurrentPage.getLayout(), collection, false);
+            mCurrentPage.onSetup(layout);
+            collection.addView(layout);
+            return layout;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup collection, int position, Object view) {
+            collection.removeView((View) view);
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return ((View) object) == view;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 5;
+            return mProfileViewsManager.list.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case CHALLENGES_IDX:
-                    return getString(R.string.home_str);
-                case ACHIEVEMENTS_IDX:
-                    //TODO Add Search Title here
-                    return null;
-                case HISTORY_IDX:
-                    return getString(R.string.new_challenge_str);
-                default: return getString(R.string.home_str);
-            }
+            return getString(mCurrentPage.getTitle());
         }
     }
 }

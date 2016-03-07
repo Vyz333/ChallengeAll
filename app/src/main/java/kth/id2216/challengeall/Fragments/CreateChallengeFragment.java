@@ -383,33 +383,33 @@ public class CreateChallengeFragment extends Fragment implements OnPutImageListe
                 return true;
             }
         }
+        public class DeadlineField extends MultipartFormField {
+            private CheckBox mCheckbox;
+            private TimePicker mTimePicker;
+            private DatePicker mDatePicker;
 
+            public int getTitle() {
+                return R.string.ns_deadline;
+            }
+
+            public int getLayout() {
+                return R.layout.new_challenge_deadline;
+            }
+
+            public boolean onValidate() {
+                return true;
+            }
+
+            public void onSetup(ViewGroup layout) {
+
+
+
+            }
+
+        }
 
     }
-    public class DeadlineField extends MultipartFormField {
-        private CheckBox mCheckbox;
-        private TimePicker mTimePicker;
-        private DatePicker mDatePicker;
 
-        public int getTitle() {
-            return R.string.ns_deadline;
-        }
-
-        public int getLayout() {
-            return R.layout.new_challenge_deadline;
-        }
-
-        public boolean onValidate() {
-            return true;
-        }
-
-        public void onSetup(ViewGroup layout) {
-
-
-
-        }
-
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
