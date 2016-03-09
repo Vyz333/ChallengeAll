@@ -91,7 +91,6 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
-
         byte[] decodedString = Base64.decode(mUser.getAvatar(), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         mImageView.setImageBitmap(decodedByte);

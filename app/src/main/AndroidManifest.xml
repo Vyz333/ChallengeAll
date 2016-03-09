@@ -73,6 +73,15 @@
                 android:value="kth.id2216.challengeall.Activities.MainActivity" />
         </activity>
         <activity
+            android:name=".Activities.MessagePromptActivity"
+            android:label="@string/title_message"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/Theme.Transparent">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="kth.id2216.challengeall.Activities.MainActivity" />
+        </activity>
+        <activity
             android:name="kth.id2216.challengeall.Activities.RegistrationActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName="kth.id2216.challengeall.Activities.MainActivity"

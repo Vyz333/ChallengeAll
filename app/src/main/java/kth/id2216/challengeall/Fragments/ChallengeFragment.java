@@ -1,6 +1,7 @@
 package kth.id2216.challengeall.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import kth.id2216.challengeall.Activities.LoginActivity;
+import kth.id2216.challengeall.Activities.MessagePromptActivity;
 import kth.id2216.challengeall.Objects.Challenge;
 import kth.id2216.challengeall.Objects.User;
 import kth.id2216.challengeall.R;
@@ -122,7 +125,7 @@ public class ChallengeFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putSerializable("challenge", mChallenge);
         outState.putSerializable("user", mUser);
-        outState.putString("key", mKey);
+        outState.putString("id", mKey);
         outState.putString("author", mAuthor);
         outState.putString("user_id", mUserId);
     }
@@ -167,7 +170,13 @@ public class ChallengeFragment extends Fragment {
 
     @OnClick(R.id.declineButton)
     public void declineButtonAction(View view) {
-        //TODO: Actually do something when a user declines a challenge (TBD)
+        //TODO: Actually do something when a user declines a challenge (Or not)
         getActivity().getSupportFragmentManager().popBackStack();
+    }
+    @OnClick(R.id.shareButton)
+    public void shareButtonAction(View view) {
+        Intent intent = new Intent(getActivity(), MessagePromptActivity.class);
+        intent.putExtra("key", mKey);
+        startActivityForResult(intent, 1);
     }
 }

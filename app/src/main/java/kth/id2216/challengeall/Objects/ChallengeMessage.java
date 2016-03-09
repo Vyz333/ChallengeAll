@@ -7,10 +7,10 @@ import java.sql.Timestamp;
  * Created by Vyz on 2016-03-03.
  */
 public class ChallengeMessage implements Serializable{
-    String fromID;
-    String toID;
-    String challengeID;
-    Timestamp timestamp;
+    private String fromID;
+    private String toID;
+    private String challengeID;
+    private Timestamp timestamp;
     public String getChallengeID() {
         return challengeID;
     }

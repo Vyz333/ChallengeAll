@@ -2,6 +2,7 @@ package kth.id2216.challengeall.Adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -34,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
+import kth.id2216.challengeall.Activities.LoginActivity;
 import kth.id2216.challengeall.Activities.MainActivity;
 import kth.id2216.challengeall.Objects.Challenge;
 import kth.id2216.challengeall.R;
@@ -52,6 +54,7 @@ public class ChallengeListAdapter extends FirebaseListAdapter<Challenge> {
     private Context mCtx;
     private AppCompatActivity mActivity;
     private ImageLoader mImageLoader;
+    private Firebase mFirebaseRef;
     private OnFragmentInteractionListener mOnFragmentInteractionListener;
 
 
@@ -60,7 +63,7 @@ public class ChallengeListAdapter extends FirebaseListAdapter<Challenge> {
         mListType = listType;
         mVItemLayout = listType == STAGGERED? R.layout.challenge_item_home_staggered:R.layout.challenge_item_home;
         mCtx = activity.getApplicationContext();
-
+        mFirebaseRef = ref.getRef();
         mActivity = activity;
         mOnFragmentInteractionListener =(OnFragmentInteractionListener) mActivity;
         ImageLoaderConfiguration config  =  new ImageLoaderConfiguration.Builder(mCtx).build();
@@ -94,11 +97,15 @@ public class ChallengeListAdapter extends FirebaseListAdapter<Challenge> {
             iholder.mSelView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bundle args = new Bundle();
-                    args.putString("id", key);
-                    args.putString("author", iholder.mItem.getAuthor());
-                    args.putSerializable("challenge",iholder.mItem);
-                    mOnFragmentInteractionListener.onFragmentInteraction(MainActivity.CHALLENGE_IDX, args);
+                    if(mFirebaseRef.getAuth()==null) {
+                        mActivity.startActivityForResult(new Intent(mActivity, LoginActivity.class), 1);
+                    }else {
+                        Bundle args = new Bundle();
+                        args.putString("id", key);
+                        args.putString("author", iholder.mItem.getAuthor());
+                        args.putSerializable("challenge", iholder.mItem);
+                        mOnFragmentInteractionListener.onFragmentInteraction(MainActivity.CHALLENGE_IDX, args);
+                    }
                 }
             });
 
