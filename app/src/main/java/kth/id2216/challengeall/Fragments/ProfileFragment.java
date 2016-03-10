@@ -90,11 +90,12 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-
-        byte[] decodedString = Base64.decode(mUser.getAvatar(), Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        mImageView.setImageBitmap(decodedByte);
-
+        String imgString = mUser.getAvatar();
+        if(!TextUtils.isEmpty(imgString)) {
+            byte[] decodedString = Base64.decode(imgString, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            mImageView.setImageBitmap(decodedByte);
+        }
         mDescView.setText(mUser.getTwitter_bio());
         mTitleView.setText(mUser.getFirstName() + " " + mUser.getLastName());
 
