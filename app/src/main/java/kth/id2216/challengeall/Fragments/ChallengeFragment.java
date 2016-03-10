@@ -101,7 +101,7 @@ public class ChallengeFragment extends Fragment {
         Bitmap b = mChallenge.getBitmap();
         if (b != null) mImageView.setImageBitmap(b);
 
-        if (mUser.getChallenges().containsKey(mKey)) {
+        if (mUser.getChallenges()!=null && mUser.getChallenges().containsKey(mKey)) {
             mPageButtons.setVisibility(View.GONE);
         } else {
             mPageButtons.setVisibility(View.VISIBLE);
