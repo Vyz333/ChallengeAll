@@ -146,6 +146,9 @@ public class ChallengeFragment extends Fragment {
 
         //Shared Preferences Update
         AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if(mUser.getChallenges()==null){
+            mUser.setChallenges(new HashMap<String, Object>());
+        }
         mUser.getChallenges().put(mKey, true);
         SharedPreferences.Editor editor = activity.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).edit();
         editor.putString("user", new Gson().toJson(mUser));
